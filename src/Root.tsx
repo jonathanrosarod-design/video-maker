@@ -17,7 +17,7 @@ export const Root: React.FC = () => {
       <Composition
         id="AscendlyAd"
         component={AscendlyAd}
-        durationInFrames={600}
+        durationInFrames={750}
         width={1920}
         height={1080}
         fps={30}

@@ -697,7 +697,219 @@ function SceneFeatures() {
   );
 }
 
-// ─── Scene 4: CTA ─────────────────────────────────────────────────────────────
+// ─── Scene 4: Testimonials ────────────────────────────────────────────────────
+function TestimonialCard({
+  quote,
+  name,
+  role,
+  stat,
+  delay,
+  accentColor,
+}: {
+  quote: string;
+  name: string;
+  role: string;
+  stat: string;
+  delay: number;
+  accentColor: string;
+}) {
+  const frame = useCurrentFrame();
+  const { fps } = useVideoConfig();
+  const s = useSpring(Math.max(0, frame - delay), fps, 16, 90);
+  const opacity = interpolate(frame - delay, [0, 20], [0, 1], {
+    extrapolateLeft: 'clamp',
+    extrapolateRight: 'clamp',
+  });
+  const y = interpolate(s, [0, 1], [50, 0]);
+
+  return (
+    <div
+      style={{
+        flex: 1,
+        background: 'rgba(255,255,255,0.04)',
+        border: `1px solid ${accentColor}30`,
+        borderRadius: 20,
+        padding: '32px 28px',
+        opacity,
+        transform: `translateY(${y}px)`,
+        display: 'flex',
+        flexDirection: 'column',
+        gap: 20,
+      }}
+    >
+      {/* Stars */}
+      <div style={{ display: 'flex', gap: 6 }}>
+        {[0, 1, 2, 3, 4].map((i) => (
+          <span key={i} style={{ fontSize: 22, color: '#F59E0B' }}>★</span>
+        ))}
+      </div>
+      {/* Quote */}
+      <div
+        style={{
+          fontSize: 17,
+          color: 'rgba(255,255,255,0.8)',
+          fontFamily: 'sans-serif',
+          lineHeight: 1.6,
+          fontStyle: 'italic',
+          flex: 1,
+        }}
+      >
+        &ldquo;{quote}&rdquo;
+      </div>
+      {/* Stat pill */}
+      <div
+        style={{
+          display: 'inline-block',
+          background: `${accentColor}18`,
+          border: `1px solid ${accentColor}40`,
+          borderRadius: 100,
+          padding: '8px 18px',
+          fontSize: 14,
+          fontWeight: 700,
+          color: accentColor,
+          fontFamily: 'sans-serif',
+          alignSelf: 'flex-start',
+        }}
+      >
+        {stat}
+      </div>
+      {/* Author */}
+      <div>
+        <div style={{ fontSize: 16, fontWeight: 700, color: WHITE, fontFamily: 'sans-serif' }}>
+          {name}
+        </div>
+        <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.4)', fontFamily: 'sans-serif', marginTop: 3 }}>
+          {role}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function SceneTestimonials() {
+  const frame = useCurrentFrame();
+  const { fps } = useVideoConfig();
+
+  const headlineSpring = useSpring(frame, fps, 14, 90);
+  const headlineY = interpolate(headlineSpring, [0, 1], [50, 0]);
+  const headlineOpacity = interpolate(frame, [0, 20], [0, 1], {
+    extrapolateLeft: 'clamp',
+    extrapolateRight: 'clamp',
+  });
+
+  const testimonials = [
+    {
+      quote:
+        "We were juggling 6 tools and still losing leads. Ascendly replaced all of them. Our close rate jumped in the first month.",
+      name: 'Mike R.',
+      role: 'Owner, HVAC Company',
+      stat: '+47% more booked jobs',
+      accentColor: GREEN,
+      delay: 25,
+    },
+    {
+      quote:
+        "The AI follow-up is unreal — leads get a text in seconds. I signed 3 new clients in my first week just from missed calls I used to lose.",
+      name: 'Jennifer S.',
+      role: 'Business Consultant',
+      stat: '3 clients week 1',
+      accentColor: BRAND,
+      delay: 50,
+    },
+    {
+      quote:
+        "Our Google reviews went from 12 to 89 in 60 days. Ascendly just asks automatically. It's been a game-changer for new patient trust.",
+      name: 'David T.',
+      role: 'Director, Medical Spa',
+      stat: '12 → 89 reviews',
+      accentColor: '#F59E0B',
+      delay: 75,
+    },
+  ];
+
+  return (
+    <AbsoluteFill style={{ background: NAVY }}>
+      {/* Background */}
+      <div
+        style={{
+          position: 'absolute',
+          inset: 0,
+          background: `radial-gradient(ellipse at 30% 50%, ${BRAND}0C 0%, transparent 55%)`,
+        }}
+      />
+      <div
+        style={{
+          position: 'absolute',
+          inset: 0,
+          backgroundImage:
+            'linear-gradient(rgba(255,107,44,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,107,44,0.03) 1px, transparent 1px)',
+          backgroundSize: '80px 80px',
+        }}
+      />
+
+      {/* Headline */}
+      <div
+        style={{
+          position: 'absolute',
+          top: 70,
+          left: 0,
+          right: 0,
+          textAlign: 'center',
+          opacity: headlineOpacity,
+          transform: `translateY(${headlineY}px)`,
+        }}
+      >
+        <div
+          style={{
+            display: 'inline-block',
+            background: `${BRAND}22`,
+            color: BRAND,
+            fontSize: 16,
+            fontWeight: 700,
+            padding: '7px 18px',
+            borderRadius: 100,
+            fontFamily: 'sans-serif',
+            marginBottom: 18,
+            letterSpacing: 1.5,
+            textTransform: 'uppercase',
+          }}
+        >
+          Real Results
+        </div>
+        <div
+          style={{
+            fontSize: 58,
+            fontWeight: 900,
+            color: WHITE,
+            fontFamily: 'sans-serif',
+            lineHeight: 1.1,
+          }}
+        >
+          Businesses growing <span style={{ color: BRAND }}>every day</span>
+        </div>
+      </div>
+
+      {/* Cards */}
+      <div
+        style={{
+          position: 'absolute',
+          top: 250,
+          left: 60,
+          right: 60,
+          bottom: 60,
+          display: 'flex',
+          gap: 24,
+        }}
+      >
+        {testimonials.map((t) => (
+          <TestimonialCard key={t.name} {...t} />
+        ))}
+      </div>
+    </AbsoluteFill>
+  );
+}
+
+// ─── Scene 5: CTA ─────────────────────────────────────────────────────────────
 function SceneCTA() {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
@@ -932,7 +1144,11 @@ export const AscendlyAd: React.FC = () => {
         <SceneFeatures />
       </Sequence>
 
-      <Sequence from={450}>
+      <Sequence from={450} durationInFrames={150}>
+        <SceneTestimonials />
+      </Sequence>
+
+      <Sequence from={600}>
         <SceneCTA />
       </Sequence>
     </AbsoluteFill>

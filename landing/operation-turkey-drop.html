@@ -1,0 +1,917 @@
+<!--
+=====================================================================================
+  TRUE NORTH PRESSURE WASHING — "OPERATION TURKEY DROP" LANDING PAGE
+  Full-width, mobile-first, single-block GoHighLevel drop-in.
+=====================================================================================
+
+  HOW TO USE IN GOHIGHLEVEL
+  -------------------------
+  1. Funnels/Websites > your page > add a 1-column Section > add a "Custom JS/HTML"
+     (Custom Code) element.
+  2. Paste this ENTIRE file into that element and save.
+  3. In the builder, set that Section + Row + Column padding/margin to 0 and set the
+     row width to "Full Width" so nothing fights the layout. (The CSS below also
+     force-breaks out of GHL's centered container, so it will go edge-to-edge either
+     way.)
+  4. Preview on desktop AND mobile, then publish.
+
+  WHERE TO PUT YOUR LINKS  (all in ONE place — search for "TN_CONFIG" near the bottom)
+  ------------------------------------------------------------------------------------
+      bookUrl      -> your "Book Your Service" calendar / form URL
+      donateUrl    -> your GoFundMe URL
+      dinnersFunded / missionTarget -> the live counter numbers
+      videoEmbedUrl-> optional YouTube/Vimeo EMBED url for the mission briefing
+      heroImage / videoPoster / ogImage -> your photos
+
+  NOTE: every CTA on the page reads from TN_CONFIG, so you only edit the links once.
+
+  COPY TO VERIFY BEFORE LAUNCH: the "10 free turkey dinners per home serviced" math,
+  delivery dates, and the FAQ answers are written from the mockup — confirm they match
+  your real offer.
+=====================================================================================
+-->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Barlow+Condensed:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Anton&family=Barlow+Condensed:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap');
+
+/* ============================ 1. TOKENS + RESET ============================ */
+.tn-page{
+  /* ---- palette ---- */
+  --tn-navy-950:#030c17;
+  --tn-navy-900:#061527;
+  --tn-navy-850:#081c31;
+  --tn-navy-800:#0b2439;
+  --tn-hairline:rgba(120,180,225,.20);
+  --tn-cyan:#3ad4ff;
+  --tn-blue:#1a9bea;
+  --tn-blue-700:#0b6fc4;
+  --tn-orange:#ff8f26;
+  --tn-orange-700:#ef6a0b;
+  --tn-white:#f2f8ff;
+  --tn-muted:#9cb3ca;
+
+  /* ---- type ---- */
+  --tn-display:'Anton','Oswald','Arial Narrow',Impact,sans-serif;
+  --tn-cond:'Barlow Condensed','Oswald','Arial Narrow',sans-serif;
+  --tn-body:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+
+  /* ---- layout ---- */
+  --tn-maxw:1320px;
+  --tn-gutter:clamp(16px,3vw,40px);
+  --tn-radius:14px;
+
+  /* ---- swap these for your own assets ---- */
+  --tn-hero-image:url('https://REPLACE-WITH-YOUR-HERO-PHOTO.jpg');
+
+  --tn-noise:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+
+  /* ---- full-bleed breakout from GHL's centered container ---- */
+  width:100vw;
+  max-width:100vw;
+  margin-left:calc(50% - 50vw);
+  margin-right:calc(50% - 50vw);
+  overflow-x:clip;                 /* clip (not hidden) so sticky header still works */
+
+  position:relative;
+  background:var(--tn-navy-900);
+  color:var(--tn-white);
+  font-family:var(--tn-body);
+  font-size:16px;
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+  text-align:left;
+}
+.tn-page *,.tn-page *::before,.tn-page *::after{box-sizing:border-box;}
+/* :where() keeps the reset at zero specificity so component rules always win */
+:where(.tn-page) :where(p,h1,h2,h3,h4,ul,ol,li,figure,blockquote){margin:0;padding:0;}
+:where(.tn-page) :where(ul,ol){list-style:none;}
+:where(.tn-page) :where(img,svg){display:block;max-width:100%;}
+:where(.tn-page) :where(a){color:inherit;text-decoration:none;}
+:where(.tn-page) :where(button){font:inherit;color:inherit;background:none;border:0;cursor:pointer;}
+.tn-page :focus-visible{outline:3px solid var(--tn-cyan);outline-offset:3px;border-radius:6px;}
+
+.tn-wrap{width:min(var(--tn-maxw),calc(100% - (var(--tn-gutter) * 2)));margin-inline:auto;}
+.tn-sr{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;}
+
+/* ============================ 2. SHARED PIECES ============================ */
+.tn-eyebrow{
+  font-family:var(--tn-cond);font-weight:600;letter-spacing:.22em;text-transform:uppercase;
+  font-size:clamp(11px,1.1vw,14px);color:var(--tn-cyan);
+  display:flex;align-items:center;gap:14px;flex-wrap:wrap;
+}
+.tn-eyebrow .tn-rule{height:1px;width:clamp(40px,8vw,120px);background:linear-gradient(90deg,var(--tn-cyan),transparent);flex:0 0 auto;}
+.tn-eyebrow .tn-dim{color:#cfe2f5;opacity:.72;}
+
+.tn-h2{
+  font-family:var(--tn-display);font-weight:400;text-transform:uppercase;
+  font-size:clamp(30px,4.6vw,56px);line-height:1;letter-spacing:.01em;
+}
+.tn-h2 em{font-style:normal;color:var(--tn-cyan);}
+.tn-h2 .tn-amber{color:var(--tn-orange);}
+.tn-h3{font-family:var(--tn-cond);font-weight:700;text-transform:uppercase;letter-spacing:.04em;font-size:clamp(19px,2vw,25px);line-height:1.1;}
+.tn-lead{color:#cbdaeb;font-size:clamp(15px,1.25vw,18px);}
+.tn-muted{color:var(--tn-muted);}
+
+.tn-heading-row{display:flex;align-items:center;gap:20px;justify-content:center;text-align:center;}
+.tn-heading-row .tn-rule{height:1px;flex:1 1 auto;max-width:200px;background:linear-gradient(90deg,transparent,var(--tn-hairline));}
+.tn-heading-row .tn-rule:last-child{background:linear-gradient(90deg,var(--tn-hairline),transparent);}
+
+/* buttons */
+.tn-btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:12px;
+  font-family:var(--tn-cond);font-weight:700;text-transform:uppercase;letter-spacing:.07em;
+  font-size:clamp(16px,1.35vw,20px);line-height:1;
+  padding:17px 26px;border-radius:10px;color:#fff;text-align:center;
+  border:1px solid rgba(255,255,255,.20);
+  transition:transform .18s ease,box-shadow .18s ease,filter .18s ease;
+  will-change:transform;
+}
+.tn-btn svg{width:20px;height:20px;flex:0 0 auto;}
+.tn-btn--blue{background:linear-gradient(100deg,var(--tn-blue-700) 0%,var(--tn-blue) 55%,#4cc8ff 100%);box-shadow:0 12px 30px rgba(26,155,234,.32),inset 0 1px 0 rgba(255,255,255,.35);}
+.tn-btn--orange{background:linear-gradient(100deg,var(--tn-orange-700) 0%,var(--tn-orange) 60%,#ffb259 100%);box-shadow:0 12px 30px rgba(255,143,38,.30),inset 0 1px 0 rgba(255,255,255,.35);}
+.tn-btn--ghost{background:rgba(255,255,255,.04);border-color:var(--tn-hairline);}
+.tn-btn:hover{transform:translateY(-2px);filter:brightness(1.07);}
+.tn-btn:active{transform:translateY(0);}
+.tn-btn--block{width:100%;}
+@media (min-width:768px){.tn-btn{white-space:nowrap;}}
+.tn-page .tn-only-mobile{display:none;}
+@media (max-width:767px){.tn-page .tn-only-mobile{display:block;}}
+.tn-btn__note{display:block;font-family:var(--tn-body);font-size:13px;letter-spacing:0;text-transform:none;color:var(--tn-muted);margin-top:10px;font-weight:400;}
+
+/* progress bar */
+.tn-progress{position:relative;height:10px;border-radius:99px;background:rgba(255,255,255,.09);border:1px solid var(--tn-hairline);overflow:hidden;flex:1 1 auto;min-width:120px;}
+.tn-progress__fill{height:100%;width:0%;border-radius:99px;background:linear-gradient(90deg,#0c7ed4,#3ad4ff);box-shadow:0 0 18px rgba(58,212,255,.55);transition:width 1.1s cubic-bezier(.22,.8,.3,1);}
+.tn-progress__num{font-family:var(--tn-cond);font-weight:700;font-size:clamp(16px,1.4vw,20px);letter-spacing:.04em;white-space:nowrap;}
+.tn-progress__num b{color:var(--tn-cyan);font-weight:700;}
+.tn-progress__num span{color:var(--tn-muted);}
+
+/* ============================ 3. HEADER ============================ */
+.tn-header{
+  position:sticky;top:0;z-index:60;                 /* delete these 3 values for a static header */
+  background:rgba(4,15,28,.94);
+  -webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--tn-hairline);
+}
+.tn-header__inner{display:flex;align-items:center;gap:18px;padding:12px 0;}
+.tn-logo{display:flex;align-items:center;gap:12px;flex:0 0 auto;}
+.tn-logo__mark{width:46px;height:46px;flex:0 0 auto;color:var(--tn-cyan);}
+.tn-logo__name{display:block;font-family:var(--tn-display);font-size:clamp(20px,2.2vw,28px);line-height:1;letter-spacing:.02em;text-transform:uppercase;}
+.tn-logo__sub{display:block;font-family:var(--tn-cond);font-weight:600;letter-spacing:.24em;text-transform:uppercase;font-size:clamp(9px,.9vw,12px);color:var(--tn-cyan);margin-top:3px;}
+.tn-header__meter{margin-left:auto;display:flex;align-items:center;gap:14px;min-width:260px;}
+.tn-header__meter .tn-label{font-family:var(--tn-cond);font-weight:600;letter-spacing:.16em;text-transform:uppercase;font-size:11px;color:var(--tn-muted);}
+.tn-nav{display:flex;align-items:center;gap:26px;margin-left:clamp(16px,3.5vw,54px);font-family:var(--tn-cond);font-weight:600;letter-spacing:.1em;text-transform:uppercase;font-size:14px;}
+.tn-nav a{color:#d3e3f3;transition:color .15s ease;}
+.tn-nav a:hover{color:var(--tn-cyan);}
+.tn-burger{width:44px;height:44px;display:none;align-items:center;justify-content:center;border:1px solid var(--tn-hairline);border-radius:10px;flex:0 0 auto;}
+.tn-burger span{display:block;width:22px;height:2px;background:#fff;position:relative;}
+.tn-burger span::before,.tn-burger span::after{content:"";position:absolute;left:0;width:22px;height:2px;background:#fff;}
+.tn-burger span::before{top:-7px;}
+.tn-burger span::after{top:7px;}
+.tn-mobile-nav{display:none;border-top:1px solid var(--tn-hairline);padding:10px 0 18px;}
+.tn-mobile-nav.is-open{display:block;}
+.tn-mobile-nav a{display:block;padding:12px 0;font-family:var(--tn-cond);font-weight:600;letter-spacing:.1em;text-transform:uppercase;border-bottom:1px solid rgba(120,180,225,.10);}
+
+/* ============================ 4. HERO ============================ */
+.tn-hero{position:relative;isolation:isolate;overflow:hidden;background:var(--tn-navy-950);}
+.tn-hero__bg{position:absolute;inset:0;z-index:0;pointer-events:none;
+  background:
+    radial-gradient(90% 120% at 12% 10%, #0d2b47 0%, rgba(13,43,71,0) 60%),
+    radial-gradient(70% 90% at 85% 0%, rgba(26,155,234,.20) 0%, rgba(26,155,234,0) 65%),
+    linear-gradient(180deg,#04101f 0%,#061527 60%,#04101f 100%);
+}
+.tn-hero__grain{position:absolute;inset:0;z-index:1;pointer-events:none;opacity:.055;background-image:var(--tn-noise);background-size:280px;mix-blend-mode:overlay;}
+.tn-hero__map{position:absolute;z-index:1;pointer-events:none;top:0;left:25%;width:min(430px,30vw);opacity:.85;color:#123a5c;}
+.tn-hero__map text{opacity:.85;}
+.tn-hero__inner{position:relative;z-index:3;display:grid;grid-template-columns:1fr;gap:26px;padding:34px 0 40px;}
+.tn-hero__copy{max-width:760px;}
+.tn-hero__copy > *{position:relative;z-index:2;}
+.tn-hero__copy > .tn-hero__media{z-index:1;}
+
+.tn-hero h1{container-type:inline-size;margin:18px 0 0;font-family:var(--tn-display);font-weight:400;text-transform:uppercase;line-height:.86;letter-spacing:.005em;}
+.tn-hl{position:relative;display:block;white-space:nowrap;font-size:clamp(42px,10vw,104px);/* fallback */
+  font-size:clamp(42px,15cqw,118px);/* fits the column, not the viewport */
+  text-shadow:0 6px 34px rgba(0,0,0,.55);}
+.tn-hl--amber{color:var(--tn-orange);}
+/* distressed/stencil grit over the headline */
+.tn-hl::after{
+  content:attr(data-text);position:absolute;inset:0;color:#04101f;opacity:.45;pointer-events:none;
+  -webkit-mask-image:var(--tn-noise);mask-image:var(--tn-noise);
+  -webkit-mask-size:210px;mask-size:210px;
+}
+.tn-hero__titlerow{display:flex;align-items:center;gap:clamp(8px,1.6vw,26px);flex-wrap:nowrap;}
+.tn-target{width:clamp(62px,12.5cqw,150px);flex:0 0 auto;color:var(--tn-orange);filter:drop-shadow(0 6px 22px rgba(255,143,38,.35));}
+.tn-hero__kicker{margin-top:14px;font-family:var(--tn-cond);font-weight:700;text-transform:uppercase;letter-spacing:.05em;font-size:clamp(21px,3.1vw,40px);line-height:1;}
+.tn-hero__para{margin-top:16px;max-width:520px;font-size:clamp(16px,1.35vw,20px);color:#d7e5f4;}
+
+.tn-hero__ctas{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,290px),1fr));gap:18px 20px;margin-top:28px;max-width:680px;}
+.tn-hero__ctas .tn-cta-col{display:flex;flex-direction:column;min-width:0;}
+.tn-hero__ctas .tn-btn{width:100%;}
+
+.tn-partner{display:flex;align-items:center;gap:14px;margin-top:26px;color:#cbdaeb;font-size:clamp(14px,1.1vw,16px);}
+.tn-partner__ico{width:44px;height:44px;flex:0 0 auto;border:1px solid var(--tn-hairline);border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;}
+.tn-partner__ico svg{width:20px;height:20px;}
+
+/* media / video */
+.tn-hero__media{position:relative;z-index:2;border-radius:var(--tn-radius);overflow:hidden;border:1px solid var(--tn-hairline);aspect-ratio:16/10;background:#0b2036;}
+.tn-hero__media .tn-photo{position:absolute;inset:0;background-color:#0d2740;background-image:var(--tn-hero-image);background-size:cover;background-position:center;}
+.tn-hero__media::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(4,16,31,.05) 0%,rgba(4,16,31,.55) 100%);pointer-events:none;}
+.tn-play{position:absolute;z-index:3;left:50%;top:48%;transform:translate(-50%,-50%);width:clamp(74px,8vw,120px);height:clamp(74px,8vw,120px);border-radius:50%;border:3px solid rgba(255,255,255,.92);display:flex;align-items:center;justify-content:center;background:rgba(6,21,39,.28);-webkit-backdrop-filter:blur(2px);backdrop-filter:blur(2px);transition:transform .2s ease,background .2s ease;}
+.tn-play svg{width:34%;height:34%;color:#fff;margin-left:6%;}
+.tn-play:hover{transform:translate(-50%,-50%) scale(1.06);background:rgba(6,21,39,.5);}
+.tn-media__label{position:absolute;z-index:3;left:0;right:0;bottom:clamp(14px,3vw,34px);text-align:center;font-family:var(--tn-cond);font-weight:700;text-transform:uppercase;letter-spacing:.09em;font-size:clamp(14px,1.3vw,20px);text-shadow:0 2px 14px rgba(0,0,0,.7);pointer-events:none;}
+.tn-hero__media iframe{position:absolute;inset:0;width:100%;height:100%;border:0;z-index:5;}
+
+.tn-stamp{
+  position:absolute;z-index:4;left:clamp(8px,4vw,60px);bottom:16px;transform:rotate(-7deg);
+  border:2px solid rgba(255,255,255,.55);border-radius:6px;padding:8px 14px;
+  font-family:var(--tn-cond);font-weight:700;text-transform:uppercase;letter-spacing:.08em;
+  font-size:clamp(11px,1.05vw,15px);line-height:1.05;text-align:center;color:rgba(255,255,255,.82);
+  background:rgba(4,16,31,.35);display:none;
+}
+
+/* ============================ 5. STATS BAR ============================ */
+.tn-stats{position:relative;z-index:4;background:linear-gradient(180deg,#071a2d,#061527);border-top:1px solid var(--tn-hairline);border-bottom:1px solid var(--tn-hairline);}
+.tn-stats__inner{display:flex;align-items:center;gap:clamp(16px,2.4vw,36px);flex-wrap:wrap;padding:18px 0;}
+.tn-stat{display:flex;align-items:center;gap:14px;flex:0 0 auto;}
+.tn-stat__body{display:flex;align-items:center;gap:12px;}
+.tn-stat__ico{width:42px;height:42px;color:#fff;flex:0 0 auto;}
+.tn-stat__ico svg{width:100%;height:100%;}
+.tn-stat__num{display:block;font-family:var(--tn-display);font-size:clamp(30px,3.4vw,44px);line-height:.9;}
+.tn-stat__label{display:block;font-family:var(--tn-cond);font-weight:600;text-transform:uppercase;letter-spacing:.12em;font-size:clamp(11px,1vw,13px);color:#c2d5e8;line-height:1.25;}
+.tn-stats__meter{display:flex;align-items:center;gap:16px;flex:1 1 320px;min-width:260px;}
+.tn-stats__tag{display:flex;align-items:center;gap:12px;flex:0 0 auto;padding-left:clamp(0px,2vw,28px);border-left:1px solid var(--tn-hairline);}
+.tn-stats__tag .tn-logo__mark{width:40px;height:40px;}
+.tn-stats__tag p{font-family:var(--tn-cond);font-weight:600;text-transform:uppercase;letter-spacing:.11em;font-size:12px;line-height:1.35;color:#c2d5e8;}
+.tn-divider-v{width:1px;align-self:stretch;background:var(--tn-hairline);}
+
+/* ============================ 6. SECTIONS ============================ */
+.tn-section{padding:clamp(52px,7vw,96px) 0;position:relative;}
+.tn-section--alt{background:linear-gradient(180deg,#051222,#071b2e);border-top:1px solid rgba(120,180,225,.10);border-bottom:1px solid rgba(120,180,225,.10);}
+.tn-section__head{text-align:center;max-width:820px;margin:0 auto clamp(28px,4vw,48px);}
+.tn-section__head .tn-lead{margin-top:14px;}
+
+/* two ways cards */
+.tn-ways{display:grid;grid-template-columns:1fr;gap:20px;}
+.tn-way{
+  display:flex;align-items:center;gap:18px;padding:clamp(18px,2.2vw,26px);
+  border-radius:var(--tn-radius);border:1px solid rgba(58,212,255,.35);
+  background:linear-gradient(120deg,rgba(13,90,150,.42),rgba(8,36,62,.55));
+  transition:transform .2s ease,box-shadow .2s ease,border-color .2s ease;
+}
+.tn-way--orange{border-color:rgba(255,143,38,.45);background:linear-gradient(120deg,rgba(150,74,10,.42),rgba(52,26,6,.55));}
+.tn-way:hover{transform:translateY(-3px);box-shadow:0 18px 40px rgba(0,0,0,.35);border-color:rgba(58,212,255,.7);}
+.tn-way--orange:hover{border-color:rgba(255,143,38,.8);}
+.tn-way__ico{width:clamp(42px,4vw,56px);height:clamp(42px,4vw,56px);flex:0 0 auto;color:var(--tn-cyan);}
+.tn-way--orange .tn-way__ico{color:var(--tn-orange);}
+.tn-way__body{flex:1 1 auto;min-width:0;}
+.tn-way__body p{color:#cbdaeb;font-size:15px;margin-top:6px;}
+.tn-way__body p b{color:#fff;}
+.tn-way__arrow{width:30px;height:30px;flex:0 0 auto;color:var(--tn-cyan);transition:transform .2s ease;}
+.tn-way--orange .tn-way__arrow{color:var(--tn-orange);}
+.tn-way:hover .tn-way__arrow{transform:translateX(5px);}
+
+/* steps */
+.tn-steps{display:grid;grid-template-columns:1fr;gap:20px;counter-reset:tnstep;}
+.tn-step{position:relative;padding:clamp(22px,2.4vw,30px);border:1px solid var(--tn-hairline);border-radius:var(--tn-radius);background:rgba(255,255,255,.028);}
+.tn-step::before{
+  counter-increment:tnstep;content:"0" counter(tnstep);
+  font-family:var(--tn-display);font-size:clamp(34px,3.6vw,48px);line-height:1;
+  color:transparent;-webkit-text-stroke:1.5px rgba(58,212,255,.55);display:block;margin-bottom:14px;
+}
+.tn-step h3{margin-bottom:8px;}
+.tn-step p{color:#bdcfe2;font-size:15px;}
+
+/* impact */
+.tn-impact{display:grid;grid-template-columns:1fr;gap:clamp(26px,4vw,52px);align-items:center;}
+.tn-list{display:grid;gap:14px;}
+.tn-list li{display:flex;gap:14px;align-items:flex-start;padding:15px 18px;border:1px solid var(--tn-hairline);border-radius:12px;background:rgba(255,255,255,.028);}
+.tn-list li svg{width:22px;height:22px;flex:0 0 auto;color:var(--tn-cyan);margin-top:2px;}
+.tn-list li span{font-size:15px;color:#cddcec;}
+.tn-list li b{color:#fff;}
+.tn-quote{margin-top:26px;border-left:3px solid var(--tn-orange);padding:6px 0 6px 20px;}
+.tn-quote p{font-family:var(--tn-cond);font-weight:600;font-size:clamp(18px,1.9vw,24px);line-height:1.3;color:#eaf3ff;}
+.tn-quote cite{display:block;margin-top:10px;font-style:normal;font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--tn-muted);font-family:var(--tn-cond);}
+
+/* partner strip */
+.tn-strip{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:clamp(18px,4vw,50px);padding:22px 0;border-top:1px solid rgba(120,180,225,.12);border-bottom:1px solid rgba(120,180,225,.12);}
+.tn-strip span{font-family:var(--tn-cond);font-weight:600;letter-spacing:.16em;text-transform:uppercase;font-size:clamp(12px,1.15vw,15px);color:#9fb6cc;}
+.tn-strip span b{color:#fff;font-weight:700;}
+
+/* FAQ */
+.tn-faq{max-width:900px;margin:0 auto;display:grid;gap:12px;}
+.tn-faq details{border:1px solid var(--tn-hairline);border-radius:12px;background:rgba(255,255,255,.028);overflow:hidden;}
+.tn-faq summary{list-style:none;cursor:pointer;padding:18px 54px 18px 20px;position:relative;font-family:var(--tn-cond);font-weight:700;text-transform:uppercase;letter-spacing:.04em;font-size:clamp(16px,1.5vw,19px);}
+.tn-faq summary::-webkit-details-marker{display:none;}
+.tn-faq summary::after{content:"";position:absolute;right:22px;top:50%;width:11px;height:11px;border-right:2px solid var(--tn-cyan);border-bottom:2px solid var(--tn-cyan);transform:translateY(-70%) rotate(45deg);transition:transform .2s ease;}
+.tn-faq details[open] summary::after{transform:translateY(-30%) rotate(-135deg);}
+.tn-faq p{padding:0 20px 20px;color:#c3d4e6;font-size:15px;}
+
+/* final CTA */
+.tn-final{position:relative;overflow:hidden;text-align:center;background:linear-gradient(180deg,#061527,#02090f);}
+.tn-final__glow{position:absolute;inset:0;pointer-events:none;background:radial-gradient(60% 80% at 50% 0%,rgba(255,143,38,.18),transparent 65%),radial-gradient(60% 90% at 50% 110%,rgba(26,155,234,.20),transparent 65%);}
+.tn-final__inner{position:relative;z-index:2;}
+.tn-final .tn-btnrow{display:flex;flex-wrap:wrap;gap:18px;justify-content:center;margin-top:30px;}
+.tn-final .tn-btnrow .tn-cta-col{display:flex;flex-direction:column;flex:1 1 260px;max-width:330px;text-align:center;}
+
+/* footer */
+.tn-footer{background:#02090f;border-top:1px solid var(--tn-hairline);padding:40px 0 calc(40px + env(safe-area-inset-bottom));}
+.tn-footer__inner{display:grid;grid-template-columns:1fr;gap:26px;align-items:start;}
+.tn-footer__links{display:flex;flex-wrap:wrap;gap:12px 26px;font-family:var(--tn-cond);font-weight:600;letter-spacing:.1em;text-transform:uppercase;font-size:13px;color:#b7cade;}
+.tn-footer__links a:hover{color:var(--tn-cyan);}
+.tn-footer small{display:block;color:#7c93a9;font-size:12.5px;line-height:1.7;}
+
+/* mobile sticky CTA bar */
+.tn-dock{position:fixed;left:0;right:0;bottom:0;z-index:70;display:none;gap:10px;padding:10px 12px calc(10px + env(safe-area-inset-bottom));background:rgba(4,15,28,.96);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border-top:1px solid var(--tn-hairline);}
+.tn-dock .tn-btn{flex:1 1 0;padding:14px 10px;font-size:15px;letter-spacing:.05em;}
+
+/* ============================ 7. RESPONSIVE ============================ */
+@media (max-width:1023px){
+  .tn-nav{display:none;}
+  .tn-burger{display:flex;}
+  .tn-header__meter{min-width:0;gap:10px;margin-left:auto;flex:0 1 220px;}
+  .tn-header__meter .tn-label{display:none;}
+  .tn-logo__mark{width:40px;height:40px;}
+}
+@media (max-width:767px){
+  .tn-header__inner{gap:10px;}
+  .tn-header__meter{flex:0 0 auto;min-width:0;flex-direction:column-reverse;align-items:flex-end;gap:6px;}
+  .tn-header__meter .tn-progress{width:112px;min-width:0;flex:0 0 auto;height:8px;}
+  .tn-header__meter .tn-progress__num{font-size:16px;}
+  .tn-hero .tn-eyebrow .tn-dim{display:none;}
+  .tn-hero__inner{padding:24px 0 30px;}
+  .tn-hero__titlerow{align-items:flex-start;}
+  .tn-hero__media{margin-top:22px;}
+  .tn-hero__ctas{gap:14px;margin-top:22px;}
+  .tn-hero__ctas .tn-btn__note{text-align:center;}
+  .tn-partner{justify-content:center;text-align:left;}
+  .tn-stats__inner{gap:14px;padding:16px;margin:22px auto 0;border:1px solid var(--tn-hairline);border-radius:var(--tn-radius);background:rgba(255,255,255,.03);}
+  .tn-stats{background:var(--tn-navy-900);border:0;}
+  .tn-stat{flex:1 1 40%;}
+  .tn-stats__meter{flex:1 1 100%;}
+  .tn-stats__tag{display:none;}
+  .tn-divider-v{display:none;}
+  .tn-dock{display:flex;}
+  .tn-page{padding-bottom:74px;}
+  .tn-way{gap:14px;padding:16px;}
+  .tn-way__body p{font-size:14px;}
+}
+@media (min-width:768px){
+  .tn-ways{grid-template-columns:1fr 1fr;}
+  .tn-steps{grid-template-columns:repeat(3,1fr);}
+  .tn-footer__inner{grid-template-columns:1.1fr 1fr;}
+}
+@media (min-width:1024px){
+  .tn-hero__inner{grid-template-columns:minmax(0,1.04fr) minmax(0,.96fr);align-items:center;min-height:660px;padding:46px 0 56px;}
+  .tn-hero__media{
+    position:absolute;top:0;right:calc(50% - 50vw);bottom:0;width:58vw;height:auto;
+    aspect-ratio:auto;border:0;border-radius:0;margin:0;
+    -webkit-mask-image:linear-gradient(90deg,transparent 0%,#000 30%);
+            mask-image:linear-gradient(90deg,transparent 0%,#000 30%);
+  }
+  .tn-hero__media::after{background:linear-gradient(90deg,rgba(4,16,31,.92) 0%,rgba(4,16,31,.15) 42%,rgba(4,16,31,.45) 100%);}
+  .tn-stamp{display:block;left:auto;right:calc(58vw - 420px);bottom:15%;}
+  .tn-play{left:58%;top:46%;}
+  .tn-media__label{top:calc(46% + clamp(52px,4.4vw,74px));bottom:auto;left:58%;right:auto;transform:translateX(-50%);width:max-content;max-width:46vw;}
+  .tn-impact{grid-template-columns:1fr 1fr;}
+  .tn-hero__map{display:block;}
+}
+@media (max-width:1023px){
+  .tn-hero__map{top:2%;left:auto;right:-6%;width:min(300px,52vw);opacity:.38;}
+}
+
+@media (prefers-reduced-motion:reduce){
+  .tn-page *{animation:none!important;transition:none!important;}
+}
+</style>
+
+<!-- ============================ ICON SPRITE ============================ -->
+<svg class="tn-sr" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">
+  <symbol id="tn-i-turkey" viewBox="0 0 120 120">
+    <g fill="currentColor">
+      <g transform="translate(54,72)">
+        <g transform="rotate(-40)"><ellipse cx="-22" cy="0" rx="21" ry="7.5"/></g>
+        <g transform="rotate(-20)"><ellipse cx="-24" cy="0" rx="23" ry="8"/></g>
+        <g><ellipse cx="-25" cy="0" rx="24" ry="8"/></g>
+        <g transform="rotate(20)"><ellipse cx="-22" cy="0" rx="21" ry="7.5"/></g>
+      </g>
+      <ellipse cx="64" cy="73" rx="25" ry="21"/>
+      <path d="M74 62c3-16 9-25 18-30l9 11c-9 5-14 13-16 24z"/>
+      <circle cx="96" cy="32" r="10"/>
+      <path d="M105 29l13 4-13 5z"/>
+      <path d="M101 37c3.4 5 2.6 11-1.6 13.4C96 47 96.6 41 101 37z"/>
+      <rect x="55" y="91" width="5" height="14" rx="2.5"/>
+      <rect x="69" y="91" width="5" height="14" rx="2.5"/>
+      <path d="M48 104h14v4.5H48zM62 104h14v4.5H62z"/>
+    </g>
+  </symbol>
+  <symbol id="tn-i-target" viewBox="0 0 48 48">
+    <g fill="none" stroke="currentColor" stroke-width="3">
+      <circle cx="24" cy="24" r="18"/><circle cx="24" cy="24" r="10"/><circle cx="24" cy="24" r="2.5" fill="currentColor" stroke="none"/>
+    </g>
+  </symbol>
+  <symbol id="tn-i-heart" viewBox="0 0 24 24"><path fill="currentColor" d="M12 21s-7.8-4.9-9.8-9.3C.7 8.3 2.4 4.6 6 3.9c2.3-.5 4.4.6 6 2.6 1.6-2 3.7-3.1 6-2.6 3.6.7 5.3 4.4 3.8 7.8C19.8 16.1 12 21 12 21z"/></symbol>
+  <symbol id="tn-i-calendar" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.9"><rect x="3" y="5" width="18" height="16" rx="2.5"/><path d="M3 10h18M8 3v4M16 3v4"/></g><g fill="currentColor"><rect x="7" y="13" width="3" height="3" rx=".6"/><rect x="14" y="13" width="3" height="3" rx=".6"/></g></symbol>
+  <symbol id="tn-i-fork" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><path d="M7 3v7a2.5 2.5 0 0 0 5 0V3M9.5 12.5V21"/><path d="M17.5 3c-1.4 1.6-2 3.4-2 5.5 0 1.6.7 2.6 2 3V21"/></g></symbol>
+  <symbol id="tn-i-arrow" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" d="M4 12h15m-6-7 7 7-7 7"/></symbol>
+  <symbol id="tn-i-play" viewBox="0 0 24 24"><path fill="currentColor" d="M8 4.8v14.4L20 12z"/></symbol>
+  <symbol id="tn-i-check" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" d="m4 12.8 5.2 5.2L20 6.6"/></symbol>
+  <symbol id="tn-i-pin" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="2.6" fill="currentColor"/></g></symbol>
+  <!-- Placeholder brand mark: swap this whole symbol for your own logo SVG, or replace
+       the <svg class="tn-logo__mark"> usages with <img src="your-logo.png"> -->
+  <symbol id="tn-i-mark" viewBox="0 0 64 64">
+    <g fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round">
+      <path d="M32 4 39 16l13-3-5 12 12 7-12 7 5 12-13-3-7 12-7-12-13 3 5-12-12-7 12-7-5-12 13 3z"/>
+    </g>
+    <g fill="currentColor"><circle cx="25" cy="30" r="3"/><circle cx="39" cy="30" r="3"/><path d="M23 40h18c-2 5-6 7-9 7s-7-2-9-7z"/></g>
+  </symbol>
+</svg>
+
+<!-- ================================================================= -->
+<!--                          PAGE MARKUP                              -->
+<!-- ================================================================= -->
+<div class="tn-page" id="tn-turkey-drop">
+
+  <!-- ----------------------------- HEADER ----------------------------- -->
+  <header class="tn-header">
+    <div class="tn-wrap tn-header__inner">
+      <a class="tn-logo" href="#tn-top" aria-label="True North Pressure Washing — home">
+        <svg class="tn-logo__mark" aria-hidden="true"><use href="#tn-i-mark"></use></svg>
+        <span>
+          <span class="tn-logo__name">True North</span>
+          <span class="tn-logo__sub">Pressure Washing</span>
+        </span>
+      </a>
+
+      <nav class="tn-nav" aria-label="Primary">
+        <a href="#tn-mission">The Mission</a>
+        <a href="#tn-how">How It Works</a>
+        <a href="#tn-faq">FAQ</a>
+      </nav>
+
+      <div class="tn-header__meter">
+        <span class="tn-label">Mission target: <span data-tn-target>500</span> dinners</span>
+        <div class="tn-progress" role="progressbar" aria-label="Turkey dinners funded" aria-valuemin="0" aria-valuemax="500" aria-valuenow="278" data-tn-bar>
+          <div class="tn-progress__fill" data-tn-fill></div>
+        </div>
+        <span class="tn-progress__num"><b data-tn-count>278</b> <span>/ <span data-tn-target>500</span></span></span>
+      </div>
+
+      <button class="tn-burger" type="button" aria-expanded="false" aria-controls="tn-mobile-nav" data-tn-burger>
+        <span class="tn-sr">Menu</span><span aria-hidden="true"></span>
+      </button>
+    </div>
+    <div class="tn-wrap"><nav class="tn-mobile-nav" id="tn-mobile-nav" aria-label="Mobile">
+      <a href="#tn-mission">The Mission</a>
+      <a href="#tn-how">How It Works</a>
+      <a href="#tn-faq">FAQ</a>
+      <a href="#tn-join">Join The Mission</a>
+    </nav></div>
+  </header>
+
+  <!-- ------------------------------ HERO ------------------------------ -->
+  <section class="tn-hero" id="tn-top">
+    <div class="tn-hero__bg" aria-hidden="true"></div>
+    <div class="tn-hero__grain" aria-hidden="true"></div>
+
+    <!-- Vancouver Island silhouette + Nanaimo pin -->
+    <svg class="tn-hero__map" viewBox="0 0 300 420" aria-hidden="true">
+      <path fill="currentColor" opacity=".5" d="M58 12c14 6 21 20 26 36 6 19 6 33 14 49 10 20 24 30 33 48 9 17 10 33 19 50 9 16 23 26 31 43 8 16 8 31 16 47 6 12 16 20 19 33 3 14-5 27-16 30-12 3-22-6-28-17-9-16-10-33-19-49-10-18-25-29-34-47-9-17-9-33-18-50-10-19-25-30-34-49-8-17-8-33-14-51C46 68 40 54 32 42 25 31 14 24 12 12c8-4 18-4 26-2 7 1 13 1 20 2z"/>
+      <g transform="translate(125,120)">
+        <circle r="9" fill="none" stroke="#3ad4ff" stroke-width="2.4"/>
+        <circle r="3.6" fill="#3ad4ff"/>
+      </g>
+      <text x="144" y="106" fill="#3ad4ff" font-family="'Barlow Condensed',sans-serif" font-size="19" font-weight="600" letter-spacing="2">NANAIMO</text>
+      <text x="144" y="129" fill="#3ad4ff" font-family="'Barlow Condensed',sans-serif" font-size="19" font-weight="600" letter-spacing="2">BC</text>
+    </svg>
+
+    <div class="tn-wrap tn-hero__inner">
+      <div class="tn-hero__copy">
+        <p class="tn-eyebrow">
+          Nanaimo, BC <i class="tn-rule" aria-hidden="true"></i>
+          <span class="tn-dim">Community <span aria-hidden="true">//</span> Service <span aria-hidden="true">//</span> Stronger Together</span>
+        </p>
+
+        <h1>
+          <span class="tn-hl" data-text="Operation">Operation</span>
+          <span class="tn-hero__titlerow">
+            <span class="tn-hl tn-hl--amber" data-text="Turkey Drop">Turkey Drop</span>
+            <svg class="tn-target" viewBox="0 0 220 220" aria-hidden="true">
+              <g fill="none" stroke="currentColor" stroke-width="7">
+                <circle cx="110" cy="110" r="78"/>
+                <path d="M110 6v46M110 168v46M6 110h46M168 110h46" stroke-width="9" stroke-linecap="round"/>
+              </g>
+              <svg x="46" y="46" width="128" height="128" viewBox="0 0 120 120"><use href="#tn-i-turkey"></use></svg>
+            </svg>
+          </span>
+        </h1>
+
+        <p class="tn-hero__kicker">500 Dinners. One Mission.</p>
+        <p class="tn-hero__para">This Thanksgiving, help us deliver fresh turkey dinners to Nanaimo families.</p>
+
+        <!-- MEDIA: sits to the right on desktop, inline under the copy on mobile -->
+        <div class="tn-hero__media" data-tn-video>
+          <div class="tn-photo" role="img" aria-label="True North crew loading boxes of fresh turkey dinners into the company van in Nanaimo, BC"></div>
+          <button class="tn-play" type="button" data-tn-play aria-label="Play the mission briefing video">
+            <svg aria-hidden="true"><use href="#tn-i-play"></use></svg>
+          </button>
+          <span class="tn-media__label">Watch the mission briefing</span>
+          <span class="tn-stamp" aria-hidden="true">Community<br>on a mission</span>
+        </div>
+
+        <div class="tn-hero__ctas">
+          <div class="tn-cta-col">
+            <a class="tn-btn tn-btn--blue" data-tn="book" href="#book">
+              <svg aria-hidden="true" class="tn-only-mobile"><use href="#tn-i-calendar"></use></svg>
+              Book Your Service
+              <svg aria-hidden="true"><use href="#tn-i-arrow"></use></svg>
+            </a>
+            <span class="tn-btn__note">Every home we service funds 10 free turkey dinners.</span>
+          </div>
+          <div class="tn-cta-col">
+            <a class="tn-btn tn-btn--orange" data-tn="donate" href="#donate">
+              <svg aria-hidden="true"><use href="#tn-i-heart"></use></svg>
+              Donate Now
+              <svg aria-hidden="true"><use href="#tn-i-arrow"></use></svg>
+            </a>
+            <span class="tn-btn__note">Give directly through GoFundMe.</span>
+          </div>
+        </div>
+
+        <p class="tn-partner">
+          <span class="tn-partner__ico"><svg aria-hidden="true"><use href="#tn-i-fork"></use></svg></span>
+          <span>Meals prepared locally by <strong>Real Meals Nanaimo</strong></span>
+        </p>
+      </div>
+
+      <div aria-hidden="true"></div><!-- desktop spacer column for the bleed photo -->
+    </div>
+  </section>
+
+  <!-- ---------------------------- STATS BAR ---------------------------- -->
+  <section class="tn-stats" aria-label="Mission progress">
+    <div class="tn-wrap tn-stats__inner">
+      <div class="tn-stat">
+        <span class="tn-stat__ico"><svg aria-hidden="true"><use href="#tn-i-turkey"></use></svg></span>
+        <span class="tn-stat__body">
+          <span class="tn-stat__num" data-tn-count>278</span>
+          <span class="tn-stat__label">Turkey dinners<br>on the way</span>
+        </span>
+      </div>
+      <span class="tn-divider-v" aria-hidden="true"></span>
+      <div class="tn-stat">
+        <span class="tn-stat__ico"><svg aria-hidden="true"><use href="#tn-i-target"></use></svg></span>
+        <span class="tn-stat__body">
+          <span class="tn-stat__num" data-tn-target>500</span>
+          <span class="tn-stat__label">Mission target<br><span data-tn-target>500</span> dinners</span>
+        </span>
+      </div>
+      <div class="tn-stats__meter">
+        <div class="tn-progress" role="progressbar" aria-label="Turkey dinners funded" aria-valuemin="0" aria-valuemax="500" aria-valuenow="278" data-tn-bar>
+          <div class="tn-progress__fill" data-tn-fill></div>
+        </div>
+        <span class="tn-progress__num"><b data-tn-count>278</b> <span>/ <span data-tn-target>500</span></span></span>
+      </div>
+      <div class="tn-stats__tag">
+        <svg class="tn-logo__mark" aria-hidden="true"><use href="#tn-i-mark"></use></svg>
+        <p>A cleaner community<br>A brighter tomorrow</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- --------------------------- TWO WAYS ----------------------------- -->
+  <section class="tn-section" id="tn-join">
+    <div class="tn-wrap">
+      <div class="tn-heading-row tn-section__head">
+        <i class="tn-rule" aria-hidden="true"></i>
+        <h2 class="tn-h2">Two Ways To Join <em>The Mission</em></h2>
+        <i class="tn-rule" aria-hidden="true"></i>
+      </div>
+
+      <div class="tn-ways">
+        <a class="tn-way" data-tn="book" href="#book">
+          <svg class="tn-way__ico" aria-hidden="true"><use href="#tn-i-calendar"></use></svg>
+          <span class="tn-way__body">
+            <span class="tn-h3">Book An Appointment</span>
+            <p>Every home we service funds <b>10 free turkey dinners</b>.</p>
+          </span>
+          <svg class="tn-way__arrow" aria-hidden="true"><use href="#tn-i-arrow"></use></svg>
+        </a>
+
+        <a class="tn-way tn-way--orange" data-tn="donate" href="#donate">
+          <svg class="tn-way__ico" aria-hidden="true"><use href="#tn-i-heart"></use></svg>
+          <span class="tn-way__body">
+            <span class="tn-h3">Donate To The Mission</span>
+            <p>Give directly through <b>GoFundMe</b>.</p>
+          </span>
+          <svg class="tn-way__arrow" aria-hidden="true"><use href="#tn-i-arrow"></use></svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- --------------------------- HOW IT WORKS -------------------------- -->
+  <section class="tn-section tn-section--alt" id="tn-how">
+    <div class="tn-wrap">
+      <div class="tn-section__head">
+        <p class="tn-eyebrow" style="justify-content:center">Mission Briefing</p>
+        <h2 class="tn-h2" style="margin-top:12px">How <em>It Works</em></h2>
+        <p class="tn-lead">Clean home. Full table. It is the same simple plan every time — and every booking multiplies into ten meals on a Nanaimo family's table.</p>
+      </div>
+
+      <ol class="tn-steps">
+        <li class="tn-step">
+          <h3 class="tn-h3">Book Your Service</h3>
+          <p>Pick a date for your driveway, siding, roof, gutters or windows. Normal pricing — no premium, no upsell.</p>
+        </li>
+        <li class="tn-step">
+          <h3 class="tn-h3">We Fund 10 Dinners</h3>
+          <p>Every completed job funds ten fresh turkey dinners, prepared locally by Real Meals Nanaimo.</p>
+        </li>
+        <li class="tn-step">
+          <h3 class="tn-h3">We Deliver Together</h3>
+          <p>Our crew loads the van and drops the meals with local families and partner organizations across Nanaimo.</p>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ----------------------------- IMPACT ------------------------------ -->
+  <section class="tn-section" id="tn-mission">
+    <div class="tn-wrap tn-impact">
+      <div>
+        <p class="tn-eyebrow">Why It Matters <i class="tn-rule" aria-hidden="true"></i></p>
+        <h2 class="tn-h2" style="margin-top:14px">Nobody In Nanaimo<br><span class="tn-amber">Eats Alone</span></h2>
+        <p class="tn-lead" style="margin-top:16px">
+          We pressure wash homes for a living. Once a year we point the whole operation at something bigger:
+          getting a hot, full turkey dinner in front of 500 neighbours who would otherwise go without.
+        </p>
+        <blockquote class="tn-quote">
+          <p>"Clean homes. Stronger communities. That is the whole mission."</p>
+          <cite>True North Pressure Washing — Nanaimo, BC</cite>
+        </blockquote>
+      </div>
+
+      <ul class="tn-list">
+        <li><svg aria-hidden="true"><use href="#tn-i-check"></use></svg><span><b>100% local.</b> Meals are cooked in Nanaimo by Real Meals Nanaimo — not shipped in.</span></li>
+        <li><svg aria-hidden="true"><use href="#tn-i-check"></use></svg><span><b>10 dinners per home serviced.</b> Your booking is the fuel for the drop.</span></li>
+        <li><svg aria-hidden="true"><use href="#tn-i-check"></use></svg><span><b>Every dollar tracked.</b> GoFundMe donations go straight into meals and delivery.</span></li>
+        <li><svg aria-hidden="true"><use href="#tn-i-check"></use></svg><span><b>Delivered by our crew.</b> Same van, same team, same neighbourhoods we work in all year.</span></li>
+      </ul>
+    </div>
+
+    <div class="tn-wrap" style="margin-top:clamp(30px,4vw,52px)">
+      <div class="tn-strip">
+        <span><b>Real Meals Nanaimo</b> — Meal Partner</span>
+        <span>Serving <b>Nanaimo &amp; Central Vancouver Island</b></span>
+        <span>Licensed <b>&amp; Insured</b></span>
+        <span>Locally <b>Owned &amp; Operated</b></span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ------------------------------- FAQ ------------------------------- -->
+  <section class="tn-section tn-section--alt" id="tn-faq">
+    <div class="tn-wrap">
+      <div class="tn-heading-row tn-section__head">
+        <i class="tn-rule" aria-hidden="true"></i>
+        <h2 class="tn-h2">Mission <em>FAQ</em></h2>
+        <i class="tn-rule" aria-hidden="true"></i>
+      </div>
+
+      <div class="tn-faq">
+        <details open>
+          <summary>Do I have to book a service to help?</summary>
+          <p>No. You can donate any amount directly through GoFundMe, and 100% of it goes toward turkey dinners. Booking a service is simply the option that gets your home cleaned and funds ten dinners at the same time.</p>
+        </details>
+        <details>
+          <summary>What services can I book?</summary>
+          <p>House washing, driveway and concrete cleaning, roof and gutter cleaning, deck and patio washing, and window cleaning throughout Nanaimo and the surrounding area. Pick your service on the booking page.</p>
+        </details>
+        <details>
+          <summary>Who receives the turkey dinners?</summary>
+          <p>Local families and individuals referred through our community partners in Nanaimo. If you know a household that should be on the list, reach out through the booking form and let us know.</p>
+        </details>
+        <details>
+          <summary>Where does the money actually go?</summary>
+          <p>Straight into food and delivery. Meals are prepared locally by Real Meals Nanaimo, and our crew handles the drops in our own vans on our own time.</p>
+        </details>
+        <details>
+          <summary>When are the dinners delivered?</summary>
+          <p>Deliveries run in the days leading up to Thanksgiving. Book or donate early so we can lock in the meal count with our kitchen partner.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- ---------------------------- FINAL CTA ---------------------------- -->
+  <section class="tn-section tn-final">
+    <div class="tn-final__glow" aria-hidden="true"></div>
+    <div class="tn-wrap tn-final__inner">
+      <p class="tn-eyebrow" style="justify-content:center">Mission target: <span data-tn-target>500</span> dinners</p>
+      <h2 class="tn-h2" style="margin-top:14px">We're At <b style="color:var(--tn-cyan);font-weight:400" data-tn-count>278</b>. <span class="tn-amber">Let's Finish It.</span></h2>
+      <p class="tn-lead" style="max-width:640px;margin:16px auto 0">Book a service or give what you can. Either way, a Nanaimo family sits down to a full table this Thanksgiving.</p>
+
+      <div style="max-width:720px;margin:26px auto 0;display:flex;align-items:center;gap:16px">
+        <div class="tn-progress" role="progressbar" aria-label="Turkey dinners funded" aria-valuemin="0" aria-valuemax="500" aria-valuenow="278" data-tn-bar>
+          <div class="tn-progress__fill" data-tn-fill></div>
+        </div>
+        <span class="tn-progress__num"><b data-tn-count>278</b> <span>/ <span data-tn-target>500</span></span></span>
+      </div>
+
+      <div class="tn-btnrow">
+        <div class="tn-cta-col">
+          <a class="tn-btn tn-btn--blue tn-btn--block" data-tn="book" href="#book">Book Your Service <svg aria-hidden="true"><use href="#tn-i-arrow"></use></svg></a>
+          <span class="tn-btn__note">Every home we service funds 10 free turkey dinners.</span>
+        </div>
+        <div class="tn-cta-col">
+          <a class="tn-btn tn-btn--orange tn-btn--block" data-tn="donate" href="#donate">Donate Now <svg aria-hidden="true"><use href="#tn-i-arrow"></use></svg></a>
+          <span class="tn-btn__note">Give directly through GoFundMe.</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ----------------------------- FOOTER ------------------------------ -->
+  <footer class="tn-footer">
+    <div class="tn-wrap tn-footer__inner">
+      <div>
+        <span class="tn-logo">
+          <svg class="tn-logo__mark" aria-hidden="true"><use href="#tn-i-mark"></use></svg>
+          <span>
+            <span class="tn-logo__name">True North</span>
+            <span class="tn-logo__sub">Pressure Washing</span>
+          </span>
+        </span>
+        <small style="margin-top:14px">Nanaimo, British Columbia &middot; <a href="tel:+10000000000" style="color:#b7cade">(000) 000-0000</a> &middot; <a href="mailto:hello@example.com" style="color:#b7cade">hello@example.com</a></small>
+      </div>
+      <div>
+        <nav class="tn-footer__links" aria-label="Footer">
+          <a href="#tn-mission">The Mission</a>
+          <a href="#tn-how">How It Works</a>
+          <a href="#tn-faq">FAQ</a>
+          <a data-tn="book" href="#book">Book A Service</a>
+          <a data-tn="donate" href="#donate">Donate</a>
+        </nav>
+        <small style="margin-top:16px">&copy; <span data-tn-year>2026</span> True North Pressure Washing. All rights reserved.<br>
+        Operation Turkey Drop is a community initiative. Meals prepared by Real Meals Nanaimo. Donations are processed by GoFundMe and are not tax receipted unless stated on the campaign page.</small>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ------------------- MOBILE STICKY CTA DOCK ------------------- -->
+  <div class="tn-dock" role="group" aria-label="Quick actions">
+    <a class="tn-btn tn-btn--blue" data-tn="book" href="#book">Book Service</a>
+    <a class="tn-btn tn-btn--orange" data-tn="donate" href="#donate">Donate</a>
+  </div>
+
+</div>
+
+<script>
+(function () {
+  /* =====================================================================
+     TN_CONFIG — THE ONLY PART YOU NEED TO EDIT
+     ===================================================================== */
+  var TN_CONFIG = {
+    // 1) CTA LINKS  ------------------------------------------------------
+    bookUrl:   'REPLACE_WITH_BOOKING_LINK',      // e.g. 'https://yourdomain.com/book'
+    donateUrl: 'REPLACE_WITH_GOFUNDME_LINK',     // e.g. 'https://www.gofundme.com/f/your-campaign'
+
+    bookNewTab:   false,   // keep booking on your own funnel
+    donateNewTab: true,    // GoFundMe is off-site -> open in a new tab
+
+    // 2) LIVE COUNTER  ---------------------------------------------------
+    dinnersFunded: 278,
+    missionTarget: 500,
+
+    // 3) MEDIA  ----------------------------------------------------------
+    heroImage:     '',   // e.g. 'https://yourcdn.com/turkey-drop-hero.jpg'
+    videoEmbedUrl: ''    // YouTube/Vimeo EMBED url, e.g.
+                         // 'https://www.youtube.com/embed/XXXXXXXX?autoplay=1&rel=0'
+  };
+  /* ============ nothing below here needs to be edited ================== */
+
+  var root = document.getElementById('tn-turkey-drop');
+  if (!root || root.dataset.tnReady === '1') { return; }
+  root.dataset.tnReady = '1';
+
+  var $  = function (s) { return root.querySelector(s); };
+  var $$ = function (s) { return Array.prototype.slice.call(root.querySelectorAll(s)); };
+
+  /* ---- hero image ---- */
+  if (TN_CONFIG.heroImage) {
+    root.style.setProperty('--tn-hero-image', 'url("' + TN_CONFIG.heroImage + '")');
+  }
+
+  /* ---- CTA links ---- */
+  function wire(kind, url, newTab) {
+    $$('[data-tn="' + kind + '"]').forEach(function (el) {
+      if (!url || url.indexOf('REPLACE_WITH') === 0) { return; } // leave placeholder untouched
+      el.setAttribute('href', url);
+      if (newTab) { el.setAttribute('target', '_blank'); el.setAttribute('rel', 'noopener noreferrer'); }
+    });
+  }
+  wire('book',   TN_CONFIG.bookUrl,   TN_CONFIG.bookNewTab);
+  wire('donate', TN_CONFIG.donateUrl, TN_CONFIG.donateNewTab);
+
+  /* ---- numbers + progress ---- */
+  var funded = Math.max(0, Number(TN_CONFIG.dinnersFunded) || 0);
+  var target = Math.max(1, Number(TN_CONFIG.missionTarget) || 1);
+  var pct    = Math.min(100, Math.round((funded / target) * 1000) / 10);
+
+  $$('[data-tn-target]').forEach(function (el) { el.textContent = String(target); });
+  $$('[data-tn-bar]').forEach(function (el) {
+    el.setAttribute('aria-valuemax', String(target));
+    el.setAttribute('aria-valuenow', String(funded));
+  });
+
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var counters = $$('[data-tn-count]');
+  // always render the real number first; the count-up only replays it on scroll-in
+  counters.forEach(function (el) { el.textContent = String(funded); });
+
+  function fillBars() {
+    $$('[data-tn-fill]').forEach(function (el) { el.style.width = pct + '%'; });
+  }
+
+  function countUp(el) {
+    if (reduce || el.dataset.tnDone === '1') { el.textContent = String(funded); return; }
+    el.dataset.tnDone = '1';
+    var start = null, dur = 1200;
+    el.textContent = '0';
+    function step(ts) {
+      if (start === null) { start = ts; }
+      var p = Math.min(1, (ts - start) / dur);
+      var eased = 1 - Math.pow(1 - p, 3);
+      el.textContent = String(Math.round(funded * eased));
+      if (p < 1) { requestAnimationFrame(step); }
+    }
+    requestAnimationFrame(step);
+  }
+
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) { countUp(entry.target); io.unobserve(entry.target); }
+      });
+    }, { threshold: 0.4 });
+    counters.forEach(function (el) { io.observe(el); });
+  } else {
+    counters.forEach(countUp);
+  }
+  setTimeout(fillBars, 120);
+  // header counter is above the fold on load — run it immediately
+  counters.slice(0, 2).forEach(countUp);
+
+  /* ---- mobile nav ---- */
+  var burger = $('[data-tn-burger]');
+  var mnav   = document.getElementById('tn-mobile-nav');
+  if (burger && mnav) {
+    burger.addEventListener('click', function () {
+      var open = mnav.classList.toggle('is-open');
+      burger.setAttribute('aria-expanded', open ? 'true' : 'false');
+    });
+    mnav.addEventListener('click', function (e) {
+      if (e.target.tagName === 'A') { mnav.classList.remove('is-open'); burger.setAttribute('aria-expanded', 'false'); }
+    });
+  }
+
+  /* ---- video ---- */
+  var playBtn = $('[data-tn-play]');
+  var videoBox = $('[data-tn-video]');
+  if (playBtn && videoBox) {
+    playBtn.addEventListener('click', function () {
+      if (!TN_CONFIG.videoEmbedUrl) { return; }
+      var f = document.createElement('iframe');
+      f.setAttribute('src', TN_CONFIG.videoEmbedUrl);
+      f.setAttribute('title', 'Operation Turkey Drop mission briefing');
+      f.setAttribute('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture');
+      f.setAttribute('allowfullscreen', '');
+      videoBox.appendChild(f);
+      playBtn.remove();
+      var lbl = videoBox.querySelector('.tn-media__label'); if (lbl) { lbl.remove(); }
+      var stamp = videoBox.querySelector('.tn-stamp');      if (stamp) { stamp.remove(); }
+    });
+    if (!TN_CONFIG.videoEmbedUrl) { playBtn.setAttribute('aria-disabled', 'true'); }
+  }
+
+  /* ---- smooth in-page scrolling that respects the sticky header ---- */
+  root.addEventListener('click', function (e) {
+    var a = e.target.closest ? e.target.closest('a[href^="#tn-"]') : null;
+    if (!a) { return; }
+    var t = document.getElementById(a.getAttribute('href').slice(1));
+    if (!t) { return; }
+    e.preventDefault();
+    var head = $('.tn-header');
+    var offset = head ? head.getBoundingClientRect().height : 0;
+    var y = t.getBoundingClientRect().top + window.pageYOffset - offset - 8;
+    window.scrollTo({ top: y, behavior: reduce ? 'auto' : 'smooth' });
+  });
+
+  /* ---- year ---- */
+  $$('[data-tn-year]').forEach(function (el) { el.textContent = String(new Date().getFullYear()); });
+})();
+</script>

@@ -2,7 +2,7 @@ import {Composition, Still} from 'remotion';
 import {IntroVideo} from './IntroVideo';
 import {AscendlyAd} from './AscendlyAd';
 import {AscendCrewBrand} from './AscendCrewBrand';
-import {AscendCrewLogo} from './AscendCrewLogo';
+import {AscendCrewSheet} from './AscendCrewSheet';
 
 export const Root: React.FC = () => {
   return (
@@ -37,7 +37,8 @@ export const Root: React.FC = () => {
           services: ['INBOX & EMAIL', 'CALENDAR & BOOKING', 'ADMIN & OPS'],
         }}
       />
-      <Still id="AscendCrewLogo" component={AscendCrewLogo} width={1200} height={1200} defaultProps={{}} />
+      <Still id="AscendCrewSheet" component={AscendCrewSheet} width={1080} height={1350} defaultProps={{colorway: 'clay'}} />
+      <Still id="AscendCrewSheetChalk" component={AscendCrewSheet} width={1080} height={1350} defaultProps={{colorway: 'chalk'}} />
     </>
   );
 };

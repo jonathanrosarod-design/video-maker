@@ -52,6 +52,21 @@ export const Root: React.FC = () => {
           handle: '@JONATHANLROSA · VIDEO CONTENT MADE EASY',
         }}
       />
+      <Composition
+        id="VCMECinematic"
+        component={VCMESalesVideo}
+        durationInFrames={VCME_DURATION}
+        width={1920}
+        height={1080}
+        fps={30}
+        defaultProps={{
+          price: '$47',
+          totalValue: '$1,410',
+          cta: 'JOIN FOR $47',
+          handle: '@JONATHANLROSA · VIDEO CONTENT MADE EASY',
+          cinematic: true,
+        }}
+      />
       <Still id="AscendCrewSheet" component={AscendCrewSheet} width={1080} height={1350} defaultProps={{colorway: 'clay'}} />
       <Still id="AscendCrewSheetChalk" component={AscendCrewSheet} width={1080} height={1350} defaultProps={{colorway: 'chalk'}} />
     </>

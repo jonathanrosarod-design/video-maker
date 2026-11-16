@@ -2,6 +2,7 @@ import React from 'react';
 import {
   AbsoluteFill,
   Audio,
+  OffthreadVideo,
   Sequence,
   Series,
   interpolate,
@@ -29,6 +30,8 @@ export type VCMESalesVideoProps = {
   totalValue: string;
   cta: string;
   handle: string;
+  /** Cinematic cut: AI footage behind every scene. */
+  cinematic?: boolean;
 };
 
 const clamp = {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'} as const;
@@ -203,13 +206,57 @@ const LowerThird: React.FC<{delay: number; name?: string; role?: string}> = ({de
   );
 };
 
-const Scene: React.FC<{children: React.ReactNode; left?: string; right?: string}> = ({children, left, right}) => (
-  <AbsoluteFill>
-    <Backdrop />
-    {children}
-    <Frame left={left} right={right} />
+// ─── Cinematic footage (VCMECinematic) ───────────────────────────────────────
+/** True when rendering the cinematic version, which puts AI footage behind every scene. */
+const CineCtx = React.createContext(false);
+
+/** One footage shot inside a scene: clip number, start frame in the scene, length in frames. */
+type Shot = {n: number; at: number; len: number};
+
+/** Real length in seconds of each Higgsfield clip in public/vcme-cine. */
+const CINE_SEC: Record<number, number> = {0: 8, 1: 9, 2: 6, 3: 6, 4: 8, 5: 6, 6: 7, 7: 6, 8: 5, 9: 5, 10: 6, 11: 8, 12: 8, 13: 11, 14: 9};
+
+const ShotLayer: React.FC<{n: number; len: number}> = ({n, len}) => {
+  const frame = useCurrentFrame();
+  // Slow push-in for a cinematic feel; slow the clip down if it is shorter than its slot.
+  const scale = interpolate(frame, [0, len], [1.02, 1.08], clamp);
+  const rate = Math.min(1, (CINE_SEC[n] * FPS) / len);
+  const fade = interpolate(frame, [0, 8], [0, 1], clamp);
+  return (
+    <AbsoluteFill style={{opacity: fade}}>
+      <OffthreadVideo
+        src={staticFile(`vcme-cine/shot-${String(n).padStart(2, '0')}.mp4`)}
+        muted
+        playbackRate={rate}
+        style={{width: '100%', height: '100%', objectFit: 'cover', transform: `scale(${scale})`}}
+      />
+    </AbsoluteFill>
+  );
+};
+
+const Footage: React.FC<{shots: Shot[]}> = ({shots}) => (
+  <AbsoluteFill style={{background: JR.black}}>
+    {shots.map((sh) => (
+      <Sequence key={`${sh.n}-${sh.at}`} from={sh.at} durationInFrames={sh.len}>
+        <ShotLayer n={sh.n} len={sh.len} />
+      </Sequence>
+    ))}
+    {/* darken for legible titles and captions, heavier at the bottom where captions sit */}
+    <AbsoluteFill style={{background: 'linear-gradient(to bottom, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.28) 30%, rgba(0,0,0,0.32) 62%, rgba(0,0,0,0.82) 100%)'}} />
+    <AbsoluteFill style={{background: 'radial-gradient(ellipse at 50% 45%, rgba(0,0,0,0) 45%, rgba(0,0,0,0.55) 100%)'}} />
   </AbsoluteFill>
 );
+
+const Scene: React.FC<{children: React.ReactNode; left?: string; right?: string; shots?: Shot[]}> = ({children, left, right, shots}) => {
+  const cine = React.useContext(CineCtx);
+  return (
+    <AbsoluteFill>
+      {cine && shots ? <Footage shots={shots} /> : <Backdrop />}
+      {children}
+      <Frame left={left} right={right} />
+    </AbsoluteFill>
+  );
+};
 
 // ─── 1. Hook ──────────────────────────────────────────────────────────────────
 const HOOK = {kicker: LEAD, title: LEAD + 14, swap: LEAD + 121};
@@ -218,7 +265,7 @@ const HookScene: React.FC = () => {
   const frame = useCurrentFrame();
   const swapped = frame >= HOOK.swap;
   return (
-    <Scene>
+    <Scene shots={[{n: 0, at: 0, len: 231}]}>
       <Vo clip="00" />
       <Captions clip="00" />
       <Sfx at={HOOK.title} name="stamp" volume={0.25} />
@@ -267,20 +314,24 @@ const Phone: React.FC = () => {
   );
 };
 
-const ProblemScene: React.FC = () => (
-  <Scene>
+const ProblemScene: React.FC = () => {
+  const cine = React.useContext(CineCtx);
+  return (
+  <Scene shots={[{n: 1, at: 0, len: 248}]}>
     <Vo clip="01" />
     <Captions clip="01" />
     <Sfx at={0} name="whoosh" />
     <Sfx at={PROB.freeze} name="stamp" />
     <Sfx at={PROB.last} name="stamp" />
-    <div style={{position: 'absolute', left: 230, top: 150}}>
-      <Pop delay={0} from={0.9}>
-        <div style={{transform: 'rotate(-3deg)'}}>
-          <Phone />
-        </div>
-      </Pop>
-    </div>
+    {cine ? null : (
+      <div style={{position: 'absolute', left: 230, top: 150}}>
+        <Pop delay={0} from={0.9}>
+          <div style={{transform: 'rotate(-3deg)'}}>
+            <Phone />
+          </div>
+        </Pop>
+      </div>
+    )}
     <div style={{position: 'absolute', left: 760, top: 230}}>
       <Rise delay={PROB.great}>
         <div style={{fontFamily: JR_FONT.title, fontWeight: 800, fontSize: 96, color: JR.white, lineHeight: 1.05}}>Great In Person.</div>
@@ -297,6 +348,7 @@ const ProblemScene: React.FC = () => (
     </div>
   </Scene>
 );
+};
 
 // ─── 3. The four bottlenecks ─────────────────────────────────────────────────
 const BOTT = {head: LEAD, labels: [LEAD + 79, LEAD + 111, LEAD + 142, LEAD + 173], footer: LEAD + 203, remove: LEAD + 290, strike: LEAD + 292};
@@ -305,7 +357,7 @@ const BottleneckScene: React.FC = () => {
   const frame = useCurrentFrame();
   const items = ['IDEAS', 'SCRIPTS', 'FILMING', 'EDITING'];
   return (
-    <Scene>
+    <Scene shots={[{n: 2, at: 0, len: 178}, {n: 3, at: 178, len: 177}]}>
       <Vo clip="02" />
       <Captions clip="02" />
       {BOTT.labels.map((at) => (
@@ -346,7 +398,7 @@ const BottleneckScene: React.FC = () => {
 const REV = {intro: LEAD, title: LEAD + 62, script: LEAD + 106, lower: LEAD + 160};
 
 const RevealScene: React.FC = () => (
-  <Scene>
+  <Scene shots={[{n: 4, at: 0, len: 232}]}>
     <Vo clip="03" />
     <Captions clip="03" />
     <Sfx at={REV.title} name="impact" />
@@ -391,7 +443,7 @@ const MethodScene: React.FC = () => {
   const fill = interpolate(frame, STEP_AT, STEPS.map((_, i) => i / (STEPS.length - 1)), clamp);
   const step = STEPS[idx];
   return (
-    <Scene left="THE CONTENT AUTHORITY METHOD">
+    <Scene left="THE CONTENT AUTHORITY METHOD" shots={[{n: 5, at: 0, len: STEP_START}, ...STEPS.map((st, i) => ({n: 6 + i, at: STEP_AT[i], len: st.len}))]}>
       <Vo clip="04" />
       <Captions clip="04" />
       {STEPS.map((s, i) => (
@@ -450,7 +502,7 @@ const STACK: [string, string, number][] = [
 ];
 
 const StackScene: React.FC = () => (
-  <Scene>
+  <Scene shots={[{n: 11, at: 0, len: 231}, {n: 12, at: 231, len: 232}]}>
     <Vo clip="10" />
     <Captions clip="10" />
     {STACK.map(([label, , at]) => (
@@ -513,7 +565,7 @@ const PriceScene: React.FC<Pick<VCMESalesVideoProps, 'price' | 'totalValue'>> = 
   const frame = useCurrentFrame();
   const strike = interpolate(frame, [PRICE.strike, PRICE.strike + 12], [0, 1], clamp);
   return (
-    <Scene>
+    <Scene shots={[{n: 13, at: 0, len: 324}]}>
       <Vo clip="11" />
       <Captions clip="11" />
       <Sfx at={PRICE.strike} name="strike" />
@@ -554,7 +606,7 @@ const CtaScene: React.FC<Pick<VCMESalesVideoProps, 'cta' | 'handle'>> = ({cta, h
   const frame = useCurrentFrame();
   const pulse = 1 + 0.025 * Math.sin(Math.max(0, frame - CTA.button - 20) / 6);
   return (
-    <Scene>
+    <Scene shots={[{n: 14, at: 0, len: 263}]}>
       <Vo clip="12" />
       <Captions clip="12" />
       <Sfx at={0} name="whoosh" />
@@ -585,9 +637,10 @@ const Music: React.FC = () => {
   return <Audio src={a('music')} volume={(f) => interpolate(f, [0, 20, durationInFrames - 75, durationInFrames - 5], [0, 0.16, 0.16, 0], clamp)} />;
 };
 
-export const VCMESalesVideo: React.FC<VCMESalesVideoProps> = ({price, totalValue, cta, handle}) => {
+export const VCMESalesVideo: React.FC<VCMESalesVideoProps> = ({price, totalValue, cta, handle, cinematic = false}) => {
   const [hook, problem, bottleneck, reveal, method, stack, priceLen, ctaLen] = VCME_SCENES;
   return (
+    <CineCtx.Provider value={cinematic}>
     <AbsoluteFill style={{background: JR.black}}>
       <Music />
       <Series>
@@ -617,5 +670,6 @@ export const VCMESalesVideo: React.FC<VCMESalesVideoProps> = ({price, totalValue
         </Series.Sequence>
       </Series>
     </AbsoluteFill>
+    </CineCtx.Provider>
   );
 };

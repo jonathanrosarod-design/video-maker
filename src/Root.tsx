@@ -47,8 +47,7 @@ export const Root: React.FC = () => {
         fps={30}
         defaultProps={{
           price: '$47',
-          foundingPrice: '$37',
-          totalValue: '$1,407',
+          totalValue: '$1,410',
           cta: 'JOIN FOR $47',
           handle: '@JONATHANLROSA · VIDEO CONTENT MADE EASY',
         }}

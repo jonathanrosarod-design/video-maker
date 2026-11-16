@@ -26,7 +26,6 @@ import {JR, JR_FONT} from './brand/jonathan';
  */
 export type VCMESalesVideoProps = {
   price: string;
-  foundingPrice: string;
   totalValue: string;
   cta: string;
   handle: string;
@@ -61,7 +60,7 @@ const Vo: React.FC<{clip: string; at?: number}> = ({clip, at = LEAD}) => (
 type Cap = [number, string, string?];
 const CLIP_SEC: Record<string, number> = {
   '00': 6.69, '01': 7.11, '02': 10.66, '03': 6.4, '04': 4.75, '05': 5.59, '06': 5.38,
-  '07': 3.89, '08': 4.31, '09': 3.42, '10': 15.12, '11': 10.81, '12': 6.43,
+  '07': 3.89, '08': 4.31, '09': 4.57, '10': 14.11, '11': 9.48, '12': 6.43,
 };
 const CAPTIONS: Record<string, Cap[]> = {
   '00': [[0, "Most entrepreneurs don't have a content problem.", 'problem.'], [4.03, "They have a story they haven't told yet.", 'story']],
@@ -73,9 +72,9 @@ const CAPTIONS: Record<string, Cap[]> = {
   '06': [[0, 'Two.'], [0.85, 'Find your voice.', 'voice.'], [2.25, 'AI shapes the structure,'], [4.35, 'never your words.', 'words.']],
   '07': [[0, 'Three.'], [0.88, 'Script in minutes.', 'minutes.'], [2.33, 'Hook, story, lesson.', 'lesson.']],
   '08': [[0, 'Four.'], [0.99, 'Film a whole week of videos in one sitting.', 'one sitting.']],
-  '09': [[0, 'Five.'], [1.02, 'Edit fast, with branded templates.', 'fast,']],
-  '10': [[0, 'You get eight training modules,', 'eight'], [2.46, 'four weeks of live coaching with Jonathan,', 'live coaching'], [5.59, 'the Story Bank workbook,'], [7.56, 'script formulas,'], [9.32, 'the prompt vault,'], [10.91, 'the motion pack,'], [12.39, 'templates,'], [13.6, 'and three bonuses.', 'bonuses.']],
-  '11': [[0, "That's over fourteen hundred dollars in value.", 'value.'], [2.85, 'Today,'], [3.68, "it's just forty-seven dollars.", 'forty-seven'], [5.81, 'Founding members pay thirty-seven.', 'thirty-seven.'], [8.26, "And it's backed by a fourteen-day guarantee.", 'guarantee.']],
+  '09': [[0, 'Five.'], [1.04, 'Edit with AI,', 'AI,'], [2.76, 'in minutes,'], [3.78, 'not hours.', 'not hours.']],
+  '10': [[0, 'You get eight training modules,', 'eight'], [2.78, 'four weeks of live coaching with Jonathan,', 'live coaching'], [5.77, 'the Story Bank workbook,'], [7.75, 'script formulas,'], [9.35, 'the prompt vault,'], [10.77, 'the AI editing system,', 'AI editing'], [12.81, 'and three bonuses.', 'bonuses.']],
+  '11': [[0, "That's over fourteen hundred dollars in value.", 'value.'], [3.27, 'Today,'], [4.08, "it's just forty-seven dollars.", 'forty-seven'], [6.73, "And it's backed by a fourteen-day guarantee.", 'guarantee.']],
   '12': [[0, "You've already lived the content.", 'lived'], [2.2, "Now let's get it out there.", 'out there.'], [3.99, 'Join Video Content Made Easy today.', 'today.']],
 };
 
@@ -374,7 +373,7 @@ const STEPS = [
   {title: 'Your Voice', sub: 'AI Structure, Your Words', vo: '06', len: 181},
   {title: 'Scripts In Minutes', sub: 'Hook · Story · Lesson', vo: '07', len: 137},
   {title: 'Film A Week', sub: 'In One Sitting', vo: '08', len: 149},
-  {title: 'Edit Fast', sub: 'Branded Templates', vo: '09', len: 123},
+  {title: 'Edit With AI', sub: 'Minutes, Not Hours', vo: '09', len: 163},
 ];
 const STEP_START = 163;
 const STEP_AT = STEPS.map((_, i) => STEP_START + STEPS.slice(0, i).reduce((s, x) => s + x.len, 0));
@@ -441,14 +440,13 @@ const MethodScene: React.FC = () => {
 // ─── 6. Offer stack ──────────────────────────────────────────────────────────
 const STACK: [string, string, number][] = [
   ['8 Training Modules', '$297', LEAD + 9],
-  ['4 Weeks Of Live Coaching', '$297', LEAD + 74],
-  ['Story Bank + Voice Blueprint', '$97', LEAD + 168],
-  ['Script Formulas', '$97', LEAD + 227],
-  ['Video Prompt Vault', '$67', LEAD + 280],
-  ['Motion Pack Vol. 1', '$97', LEAD + 327],
-  ['Brand Reveal + Ad Templates', '$147', LEAD + 372],
-  ['3 Bonuses + Community', '$211', LEAD + 408],
-  ['Fast-Action Video Review', '$97', LEAD + 438],
+  ['4 Weeks Of Live Coaching', '$297', LEAD + 83],
+  ['Story Bank + Voice Blueprint', '$97', LEAD + 173],
+  ['Script Formulas', '$97', LEAD + 233],
+  ['Video Prompt Vault', '$67', LEAD + 281],
+  ['AI Editing System', '$247', LEAD + 323],
+  ['3 Bonuses + Community', '$211', LEAD + 384],
+  ['Fast-Action Video Review', '$97', LEAD + 414],
 ];
 
 const StackScene: React.FC = () => (
@@ -482,7 +480,7 @@ const StackScene: React.FC = () => (
 );
 
 // ─── 7. Price and guarantee ──────────────────────────────────────────────────
-const PRICE = {kicker: LEAD, value: LEAD + 4, strike: LEAD + 70, today: LEAD + 85, price: LEAD + 110, founding: LEAD + 174, badge: LEAD + 248};
+const PRICE = {kicker: LEAD, value: LEAD + 4, strike: LEAD + 70, today: LEAD + 98, price: LEAD + 122, badge: LEAD + 202};
 
 const GuaranteeBadge: React.FC<{size: number}> = ({size}) => (
   <svg width={size} height={size} viewBox="0 0 320 320" style={{display: 'block', overflow: 'visible'}}>
@@ -511,7 +509,7 @@ const GuaranteeBadge: React.FC<{size: number}> = ({size}) => (
   </svg>
 );
 
-const PriceScene: React.FC<Pick<VCMESalesVideoProps, 'price' | 'foundingPrice' | 'totalValue'>> = ({price, foundingPrice, totalValue}) => {
+const PriceScene: React.FC<Pick<VCMESalesVideoProps, 'price' | 'totalValue'>> = ({price, totalValue}) => {
   const frame = useCurrentFrame();
   const strike = interpolate(frame, [PRICE.strike, PRICE.strike + 12], [0, 1], clamp);
   return (
@@ -537,9 +535,6 @@ const PriceScene: React.FC<Pick<VCMESalesVideoProps, 'price' | 'foundingPrice' |
         <Pop delay={PRICE.price} from={0.6} style={{transformOrigin: 'left center', marginTop: 16}}>
           <div style={{display: 'inline-block', background: JR.orange, color: JR.white, fontFamily: JR_FONT.title, fontWeight: 800, fontSize: 200, lineHeight: 1, padding: '14px 44px 22px'}}>= {price}</div>
         </Pop>
-        <Rise delay={PRICE.founding} style={{marginTop: 24}}>
-          <Tag size={28}>FOUNDING MEMBERS: {foundingPrice} · FIRST 50</Tag>
-        </Rise>
       </div>
       <div style={{position: 'absolute', left: 1270, top: 250}}>
         <Pop delay={PRICE.badge} from={0.6}>
@@ -582,7 +577,7 @@ const CtaScene: React.FC<Pick<VCMESalesVideoProps, 'cta' | 'handle'>> = ({cta, h
 
 // ─── Composition ──────────────────────────────────────────────────────────────
 /** Scene lengths in frames: voiceover length plus air on either side. */
-export const VCME_SCENES = [231, 248, 355, 232, METHOD_LEN, 494, 364, 263];
+export const VCME_SCENES = [231, 248, 355, 232, METHOD_LEN, 463, 324, 263];
 export const VCME_DURATION = VCME_SCENES.reduce((s, x) => s + x, 0);
 
 const Music: React.FC = () => {
@@ -590,7 +585,7 @@ const Music: React.FC = () => {
   return <Audio src={a('music')} volume={(f) => interpolate(f, [0, 20, durationInFrames - 75, durationInFrames - 5], [0, 0.16, 0.16, 0], clamp)} />;
 };
 
-export const VCMESalesVideo: React.FC<VCMESalesVideoProps> = ({price, foundingPrice, totalValue, cta, handle}) => {
+export const VCMESalesVideo: React.FC<VCMESalesVideoProps> = ({price, totalValue, cta, handle}) => {
   const [hook, problem, bottleneck, reveal, method, stack, priceLen, ctaLen] = VCME_SCENES;
   return (
     <AbsoluteFill style={{background: JR.black}}>
@@ -615,7 +610,7 @@ export const VCMESalesVideo: React.FC<VCMESalesVideoProps> = ({price, foundingPr
           <StackScene />
         </Series.Sequence>
         <Series.Sequence durationInFrames={priceLen}>
-          <PriceScene price={price} foundingPrice={foundingPrice} totalValue={totalValue} />
+          <PriceScene price={price} totalValue={totalValue} />
         </Series.Sequence>
         <Series.Sequence durationInFrames={ctaLen}>
           <CtaScene cta={cta} handle={handle} />

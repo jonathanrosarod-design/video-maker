@@ -3,6 +3,7 @@ import {IntroVideo} from './IntroVideo';
 import {AscendlyAd} from './AscendlyAd';
 import {AscendCrewBrand} from './AscendCrewBrand';
 import {AscendCrewSheet} from './AscendCrewSheet';
+import {VCMESalesVideo, VCME_DURATION} from './VCMESalesVideo';
 
 export const Root: React.FC = () => {
   return (
@@ -35,6 +36,21 @@ export const Root: React.FC = () => {
         defaultProps={{
           handle: '@ascendcrew',
           services: ['INBOX & EMAIL', 'CALENDAR & BOOKING', 'ADMIN & OPS'],
+        }}
+      />
+      <Composition
+        id="VCMESalesVideo"
+        component={VCMESalesVideo}
+        durationInFrames={VCME_DURATION}
+        width={1920}
+        height={1080}
+        fps={30}
+        defaultProps={{
+          price: '$47',
+          foundingPrice: '$37',
+          totalValue: '$1,407',
+          cta: 'JOIN FOR $47',
+          brandLine: 'VIDEO CONTENT MADE EASY · REACH MEDIA GROUP',
         }}
       />
       <Still id="AscendCrewSheet" component={AscendCrewSheet} width={1080} height={1350} defaultProps={{colorway: 'clay'}} />

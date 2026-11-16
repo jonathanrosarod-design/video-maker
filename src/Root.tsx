@@ -50,7 +50,7 @@ export const Root: React.FC = () => {
           foundingPrice: '$37',
           totalValue: '$1,407',
           cta: 'JOIN FOR $47',
-          brandLine: 'VIDEO CONTENT MADE EASY · REACH MEDIA GROUP',
+          handle: '@JONATHANLROSA · VIDEO CONTENT MADE EASY',
         }}
       />
       <Still id="AscendCrewSheet" component={AscendCrewSheet} width={1080} height={1350} defaultProps={{colorway: 'clay'}} />

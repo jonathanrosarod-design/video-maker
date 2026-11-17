@@ -334,10 +334,10 @@ const ProblemScene: React.FC = () => {
     )}
     <div style={{position: 'absolute', left: 760, top: 230}}>
       <Rise delay={PROB.great}>
-        <div style={{fontFamily: JR_FONT.title, fontWeight: 800, fontSize: 96, color: JR.white, lineHeight: 1.05}}>Great In Person.</div>
+        <div style={{fontFamily: JR_FONT.title, fontWeight: 800, fontSize: 96, color: JR.white, lineHeight: 1.05, textShadow: '0 4px 22px rgba(0,0,0,0.85)'}}>Great In Person.</div>
       </Rise>
       <Rise delay={PROB.camera}>
-        <div style={{fontFamily: JR_FONT.title, fontWeight: 800, fontSize: 60, color: JR.mute, lineHeight: 1.1, marginTop: 14}}>Then The Camera Turns On…</div>
+        <div style={{fontFamily: JR_FONT.title, fontWeight: 800, fontSize: 60, color: JR.mute, lineHeight: 1.1, marginTop: 14, textShadow: '0 4px 22px rgba(0,0,0,0.85)'}}>Then The Camera Turns On…</div>
       </Rise>
       <div style={{marginTop: 26}}>
         <TitleBlock delay={PROB.freeze} line2="You Freeze." size={104} align="left" />
@@ -410,7 +410,7 @@ const RevealScene: React.FC = () => (
         <TitleBlock delay={REV.title} line1="Video Content" line2="Made Easy" size={128} />
       </div>
       <Rise delay={REV.script}>
-        <div style={{fontFamily: JR_FONT.serif, fontStyle: 'italic', fontSize: 76, color: JR.orange, marginTop: 18}}>Your story is your authority.</div>
+        <div style={{fontFamily: JR_FONT.serif, fontStyle: 'italic', fontSize: 76, color: JR.orange, marginTop: 18, textShadow: '0 4px 22px rgba(0,0,0,0.85)'}}>Your story is your authority.</div>
       </Rise>
     </div>
     <div style={{position: 'absolute', left: 110, top: 760}}>
@@ -614,7 +614,7 @@ const CtaScene: React.FC<Pick<VCMESalesVideoProps, 'cta' | 'handle'>> = ({cta, h
       <div style={{position: 'absolute', top: 150, width: '100%', textAlign: 'center'}}>
         <TitleBlock delay={CTA.head} line1="You've Already Lived" line2="The Content." size={112} />
         <Rise delay={CTA.script}>
-          <div style={{fontFamily: JR_FONT.serif, fontStyle: 'italic', fontSize: 80, color: JR.orange, marginTop: 22}}>Now let's get it out there.</div>
+          <div style={{fontFamily: JR_FONT.serif, fontStyle: 'italic', fontSize: 80, color: JR.orange, marginTop: 22, textShadow: '0 4px 22px rgba(0,0,0,0.85)'}}>Now let's get it out there.</div>
         </Rise>
         <Pop delay={CTA.button} from={0.5} style={{marginTop: 34}}>
           <div style={{display: 'inline-block', background: JR.white, color: JR.black, fontFamily: JR_FONT.title, fontWeight: 800, fontSize: 64, padding: '18px 64px', transform: `scale(${pulse})`, boxShadow: `10px 10px 0 ${JR.orange}`}}>{cta}</div>
